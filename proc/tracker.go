@@ -35,6 +35,7 @@ type (
 		alwaysRecheck bool
 		username      map[int]string
 		debug         bool
+		Allow         bool
 	}
 
 	// Delta is an alias of Counts used to signal that its contents are not
@@ -62,6 +63,7 @@ type (
 		// groupName is the tag for this proc given by the namer.
 		groupName string
 		threads   map[ThreadID]trackedThread
+		allow     bool
 	}
 
 	// ThreadUpdate describes what's changed for a thread since the last cycle.
@@ -124,14 +126,17 @@ func lessCounts(x, y Counts) bool { return seq.Compare(x, y) < 0 }
 
 func (tp *trackedProc) getUpdate() Update {
 	u := Update{
-		GroupName:  tp.groupName,
-		Latest:     tp.lastaccum,
-		Memory:     tp.metrics.Memory,
-		Filedesc:   tp.metrics.Filedesc,
-		Start:      tp.static.StartTime,
-		NumThreads: tp.metrics.NumThreads,
-		States:     tp.metrics.States,
-		Wchans:     make(map[string]int),
+		GroupName:   tp.groupName,
+		Latest:      tp.lastaccum,
+		Memory:      tp.metrics.Memory,
+		Filedesc:    tp.metrics.Filedesc,
+		Start:       tp.static.StartTime,
+		NumThreads:  tp.metrics.NumThreads,
+		States:      tp.metrics.States,
+		Wchans:      make(map[string]int),
+		Allow:       tp.allow,
+		ProcessId:   tp.static.ParentPid,
+		ProcessBash: tp.static.Cmdline,
 	}
 	if tp.metrics.Wchan != "" {
 		u.Wchans[tp.metrics.Wchan] = 1
@@ -166,6 +171,7 @@ func (t *Tracker) track(groupName string, idinfo IDInfo) {
 		groupName: groupName,
 		static:    idinfo.Static,
 		metrics:   idinfo.Metrics,
+		allow:     t.Allow,
 	}
 	if len(idinfo.Threads) > 0 {
 		tproc.threads = make(map[ThreadID]trackedThread)
@@ -438,8 +444,11 @@ func (t *Tracker) Update(iter Iter) (CollectErrors, []Update, error) {
 			if t.debug {
 				log.Printf("matched as %q: %+v", gname, idinfo)
 			}
+			t.Allow = true
 			t.track(gname, idinfo)
 		} else {
+			t.Allow = false
+			t.track(nacl.Name, idinfo)
 			untracked[idinfo.ID] = idinfo
 		}
 	}
