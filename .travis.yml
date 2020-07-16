@@ -13,7 +13,7 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y rpm
 
-go_import_path: github.com/ncabatoff/process-exporter
+go_import_path: github.com/yyf330/process-exporter
 
 script:
   - make style vet test build smoke docker
@@ -22,8 +22,8 @@ script:
 after_success:
   - docker login -u $DOCKER_USER -p "$DOCKER_PASSWORD"
   - >
-    test -n "$TRAVIS_TAG" && 
-    docker tag ncabatoff/process-exporter:$IMAGE_TAG ncabatoff/process-exporter:latest && 
-    docker push ncabatoff/process-exporter:$IMAGE_TAG && 
-    docker push ncabatoff/process-exporter:latest && 
+    test -n "$TRAVIS_TAG" &&
+    docker tag ncabatoff/process-exporter:$IMAGE_TAG ncabatoff/process-exporter:latest &&
+    docker push ncabatoff/process-exporter:$IMAGE_TAG &&
+    docker push ncabatoff/process-exporter:latest &&
     curl -sL http://git.io/goreleaser | bash

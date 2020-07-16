@@ -13,7 +13,7 @@ steps:
 #   args: ['chmod', '+x', 'dep']
   # Setup the workspace
   - name: gcr.io/cloud-builders/go
-    env: ['PROJECT_ROOT=github.com/ncabatoff/process-exporter']
+    env: ['PROJECT_ROOT=github.com/yyf330/process-exporter']
     args: ['env']
   # Run dep in the workspace created in previous step
 # - name: gcr.io/cloud-builders/go
@@ -29,4 +29,3 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args: ['build', '--tag=gcr.io/$PROJECT_ID/process-exporter', '.', '-f', 'Dockerfile.cloudbuild']
 images: ['gcr.io/$PROJECT_ID/process-exporter']
-    

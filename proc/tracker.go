@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	seq "github.com/ncabatoff/go-seq/seq"
-	common "github.com/ncabatoff/process-exporter"
+	"github.com/ncabatoff/go-seq/seq"
+	"github.com/yyf330/process-exporter"
 )
 
 type (
@@ -93,6 +93,13 @@ type (
 		// Threads are the thread updates for this process, if the Tracker
 		// has trackThreads==true.
 		Threads []ThreadUpdate
+
+		// Black and white list
+		Allow bool
+		// process id
+		ProcessId int
+		// process bash
+		ProcessBash []string
 	}
 
 	// CollectErrors describes non-fatal errors found while collecting proc

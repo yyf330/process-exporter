@@ -4,7 +4,7 @@ import (
 	"time"
 
 	seq "github.com/ncabatoff/go-seq/seq"
-	common "github.com/ncabatoff/process-exporter"
+	common "github.com/yyf330/process-exporter"
 )
 
 type (
@@ -41,6 +41,10 @@ type (
 		WorstFDratio    float64
 		NumThreads      uint64
 		Threads         []Threads
+		//
+		Allow       bool
+		ProcessId   int
+		ProcessBash []string
 	}
 )
 
@@ -88,6 +92,10 @@ func groupadd(grp Group, ts Update) Group {
 	for wchan, count := range ts.Wchans {
 		grp.Wchans[wchan] += count
 	}
+
+	grp.Allow = ts.Allow
+	grp.ProcessBash = ts.ProcessBash
+	grp.ProcessId = ts.ProcessId
 
 	return grp
 }

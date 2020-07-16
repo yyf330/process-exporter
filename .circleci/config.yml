@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12-stretch
-    working_directory: /go/src/github.com/ncabatoff/process-exporter
+    working_directory: /go/src/github.com/yyf330/process-exporter
     steps:
       - checkout
       - run: make style vet test build integ
@@ -14,7 +14,7 @@ jobs:
         IMAGE_NAME: ncabatoff/process-exporter
     docker:
       - image: docker:stable-git
-    working_directory: /go/src/github.com/ncabatoff/process-exporter
+    working_directory: /go/src/github.com/yyf330/process-exporter
     steps:
       - checkout
       - setup_remote_docker
@@ -26,7 +26,7 @@ jobs:
   release:
     docker:
       - image: circleci/golang:1.12
-    working_directory: /go/src/github.com/ncabatoff/process-exporter
+    working_directory: /go/src/github.com/yyf330/process-exporter
     steps:
       - checkout
       - run: sudo apt-get -qq update
@@ -38,7 +38,7 @@ jobs:
       IMAGE_NAME: ncabatoff/process-exporter
     docker:
       - image: docker:stable-git
-    working_directory: /go/src/github.com/ncabatoff/process-exporter
+    working_directory: /go/src/github.com/yyf330/process-exporter
     steps:
       - checkout
       - setup_remote_docker

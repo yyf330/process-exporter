@@ -11,7 +11,7 @@ import (
 	"text/template"
 	"time"
 
-	common "github.com/ncabatoff/process-exporter"
+	common "github.com/yyf330/process-exporter"
 	"gopkg.in/yaml.v2"
 )
 
@@ -27,6 +27,7 @@ type (
 
 	Config struct {
 		MatchNamers FirstMatcher
+		Names       []string
 	}
 
 	commMatcher struct {

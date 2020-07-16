@@ -10,7 +10,7 @@ steps:
 
   # Setup the workspace
   - name: gcr.io/cloud-builders/go
-    env: ['PROJECT_ROOT=github.com/ncabatoff/process-exporter']
+    env: ['PROJECT_ROOT=github.com/yyf330/process-exporter']
     args: ['env']
 
   # Build project

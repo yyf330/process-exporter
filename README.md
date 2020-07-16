@@ -1,7 +1,7 @@
 # process-exporter
 Prometheus exporter that mines /proc to report on selected processes.
 
-[release]: https://github.com/ncabatoff/process-exporter/releases/latest
+[release]: https://github.com/yyf330/process-exporter/releases/latest
 
 [![Release](https://img.shields.io/github/release/ncabatoff/process-exporter.svg?style=flat-square")][release]
 [![Powered By: GoReleaser](https://img.shields.io/badge/powered%20by-goreleaser-green.svg?branch=master)](https://github.com/goreleaser)
