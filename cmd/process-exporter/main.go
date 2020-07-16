@@ -518,6 +518,9 @@ func (p *NamedProcessCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- threadMajorPageFaultsDesc
 	ch <- threadMinorPageFaultsDesc
 	ch <- threadContextSwitchesDesc
+
+	ch <- ProcessStatus
+	ch <- UnknownProcessDesc
 }
 
 // Collect implements prometheus.Collector.
