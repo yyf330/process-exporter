@@ -521,6 +521,8 @@ func (p *NamedProcessCollector) Describe(ch chan<- *prometheus.Desc) {
 
 	ch <- ProcessStatus
 	ch <- UnknownProcessDesc
+	ch <- cpuUserSecsDesc
+	ch <- cpuSystemSecsDesc
 }
 
 // Collect implements prometheus.Collector.
@@ -590,6 +592,11 @@ func (p *NamedProcessCollector) scrape(ch chan<- prometheus.Metric) {
 					prometheus.GaugeValue, float64(gcounts.States.Zombie), gname, "Zombie")
 				ch <- prometheus.MustNewConstMetric(statesDesc,
 					prometheus.GaugeValue, float64(gcounts.States.Other), gname, "Other")
+
+				ch <- prometheus.MustNewConstMetric(cpuUserSecsDesc,
+					prometheus.CounterValue, gcounts.CPUUserTime, gname, strings.Join(gcounts.ProcessBash," "))
+				ch <- prometheus.MustNewConstMetric(cpuSystemSecsDesc,
+					prometheus.CounterValue, gcounts.CPUSystemTime, gname, strings.Join(gcounts.ProcessBash," "))
 
 				for wchan, count := range gcounts.Wchans {
 					ch <- prometheus.MustNewConstMetric(threadWchanDesc,
